@@ -39,28 +39,28 @@ This experiment aims to exploit the negative sampling based on popularity to per
 
 1. Install gcc if it is not installed already. 
 1. Create and activate a new conda environment
-```shell
+```
     conda create -n ‹environment_name> python=3.9
     conda activate ‹environment_name>
 ```
 1. Install the core recommenders package. It can run the CPU notebooks.
-```shell
+```
 pip install recommenders
 ```
 1. create a Jupyter kernel
-```shell
+```
 python -m ipykernel install --user -name ‹environment_name> -display-name ‹kernel_name>
 ```
 1. Install Tensorflow
-```shell
+```
 pip install tensorflow==2.15.0
 ```
 1. If using Mac with the Apple Silicon chip, you can optionally install Tensorflow Metal to optimize the use of Mac GPUs
-```shell
+```
 pip install tensorflow-metal
 ```
 1. Clone this repository within VSCode or using command line:
-```shell
+```
 git clone https://github.com/recommenders-team/recommenders.git
 ```
 
