@@ -19,10 +19,10 @@ Context-Aware-Recommendation-Systems/
 └── README.md
 ```
 
-The data project holds the original data, which is the Amazon 2023 reviews dataset. It also holds data files for four experiments in this project. The data files have been separated for the experiments to avoid inadvertent overwriting of files by experiments. However, they all use the same original files which is close to 10GB and is read-only in our setup.     
+The data project contains the original data, which is the Amazon 2023 reviews dataset. It also has data files for the four experiments in this project. The data files have been separated for the experiments to avoid inadvertent overwriting of files by experiments. However, they all use the same original files which is close to 10GB and is read-only in our setup.     
      
-The notebooks and code for the for experiments can be found in the `Experiments` folder and they are:     
-#### 1. Domain Transfer Capabilities    
+The notebooks and code for the four experiments can be found in the `Experiments` folder and they are:     
+#### 1. Domain Transfer Capabilities
 The performance is evaluated under two settings to test SLi-Rec’s adaptability to new domains.     
        
 #### 2. Exploit Item Context     
@@ -39,29 +39,29 @@ This experiment aims to exploit the negative sampling based on popularity to per
 
 1. Install gcc if it is not installed already. 
 1. Create and activate a new conda environment
-```
+```shell
     conda create -n ‹environment_name> python=3.9
     conda activate ‹environment_name>
 ```
 1. Install the core recommenders package. It can run the CPU notebooks.
-```
+```shell
 pip install recommenders
 ```
 1. create a Jupyter kernel
-```
+```shell
 python -m ipykernel install --user -name ‹environment_name> -display-name ‹kernel_name>
 ```
 1. Install Tensorflow
-```
+```shell
 pip install tensorflow==2.15.0
 ```
 1. If using Mac with the Apple Silicon chip, you can optionally install Tensorflow Metal to optimize the use of Mac GPUs
-```
+```shell
 pip install tensorflow-metal
 ```
 1. Clone this repository within VSCode or using command line:
-```
-git clone https://github. com/recommenders-team/recommenders.git
+```shell
+git clone https://github.com/recommenders-team/recommenders.git
 ```
 
 
