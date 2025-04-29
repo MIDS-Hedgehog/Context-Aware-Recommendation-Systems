@@ -9,7 +9,7 @@ Context-Aware-Recommendation-Systems/
 │   ├── exploit_item_context/
 │   ├── generalization_performance/
 │   ├── increase_diversity_in_rec/
-│   └── original_Data/
+│   └── original_data/
 ├── Experiments/
 │   ├── domain_transfer_capabilities/
 │   ├── exploit_item_context/
@@ -75,4 +75,3 @@ Within VSCode:
 a. Open a main Notebook in one of the experiments as listed above          
 b. Select Jupyter kernel «kernel_name>       
 C. Run the notebook.       
-      
