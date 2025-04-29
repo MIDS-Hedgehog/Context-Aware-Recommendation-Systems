@@ -169,18 +169,17 @@ class SequentialBaseModel(BaseModel):
                 pickle.dump(epoch_loss, file)
 
             valid_res = self.run_eval(valid_file, valid_num_ngs)
-            # LEONARD COMMENTED
-            # print(
-            #     "eval valid at epoch {0}: {1}".format(
-            #         epoch,
-            #         ",".join(
-            #             [
-            #                 "" + str(key) + ":" + str(value)
-            #                 for key, value in valid_res.items()
-            #             ]
-            #         ),
-            #     )
-            # )
+            print(
+                "eval valid at epoch {0}: {1}".format(
+                    epoch,
+                    ",".join(
+                        [
+                            "" + str(key) + ":" + str(value)
+                            for key, value in valid_res.items()
+                        ]
+                    ),
+                )
+            )
             eval_info.append((epoch, valid_res))
 
             progress = False
