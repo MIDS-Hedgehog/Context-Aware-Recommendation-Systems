@@ -156,13 +156,12 @@ class SequentialBaseModel(BaseModel):
                         self.writer.add_summary(summary, step)
                     epoch_loss += step_loss
                     step += 1
-                    # LEONARD COMMENTED
-                    # if step % self.hparams.show_step == 0:
-                    #     print(
-                    #         "step {0:d} , total_loss: {1:.4f}, data_loss: {2:.4f}".format(
-                    #             step, step_loss, step_data_loss
-                    #         )
-                    #     )
+                    if step % self.hparams.show_step == 0:
+                        print(
+                            "step {0:d} , total_loss: {1:.4f}, data_loss: {2:.4f}".format(
+                                step, step_loss, step_data_loss
+                            )
+                        )
             # LEONARD
             epoch_losses.append(epoch_loss)
             with open(path_epocs_losses, "wb") as file:
