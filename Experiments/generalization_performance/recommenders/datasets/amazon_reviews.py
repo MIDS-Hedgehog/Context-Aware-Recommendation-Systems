@@ -42,7 +42,7 @@ def data_preprocessing(
     item_vocab,
     cate_vocab,
     selection_type,
-    sample_rate=0.01,
+    sample_rate,
     valid_num_ngs=4,
     test_num_ngs=9,
     is_history_expanding=True,
@@ -405,6 +405,7 @@ def _get_time_data(instance_file, sample_rate):
     # Sort by timestamp
     sorted_df = ns_df.sort_values(by="timestamp")
     # Calculate how many rows correspond to the fraction
+
     k = int(len(sorted_df) * sample_rate)
     ns_df_sample = sorted_df.iloc[:k]
 
