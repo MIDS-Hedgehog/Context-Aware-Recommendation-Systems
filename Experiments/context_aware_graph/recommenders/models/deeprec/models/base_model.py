@@ -50,7 +50,7 @@ class BaseModel:
                 tf.bool, shape=(), name="is_training"
             )
             self.group = tf.compat.v1.placeholder(tf.int32, shape=(), name="group")
-            self.temperature = tf.compat.v1.placeholder(tf.float32, shape=[], name="temperature")
+
             self.initializer = self._get_initializer()
 
             self.logit = self._build_graph()
@@ -376,7 +376,6 @@ class BaseModel:
         """
         feed_dict[self.layer_keeps] = self.keep_prob_train
         feed_dict[self.is_train_stage] = True
-        feed_dict[self.temperature] = 1
         return sess.run(
             [
                 self.update,
@@ -400,7 +399,6 @@ class BaseModel:
         """
         feed_dict[self.layer_keeps] = self.keep_prob_test
         feed_dict[self.is_train_stage] = False
-        feed_dict[self.temperature] = self.hparams.temperature
         return sess.run([self.pred, self.iterator.labels], feed_dict=feed_dict)
 
     def infer(self, sess, feed_dict):
@@ -415,7 +413,6 @@ class BaseModel:
         """
         feed_dict[self.layer_keeps] = self.keep_prob_test
         feed_dict[self.is_train_stage] = False
-        feed_dict[self.temperature] = self.hparams.temperature
         return sess.run([self.pred], feed_dict=feed_dict)
 
     def load_model(self, model_path=None):
@@ -701,8 +698,12 @@ class BaseModel:
                     activation = hparams.activation[idx]
 
                     if hparams.enable_BN is True:
-                        bn_layer = tf.keras.layers.BatchNormalization(momentum=0.95, epsilon=0.0001)
-                        curr_hidden_nn_layer = bn_layer(curr_hidden_nn_layer, training=self.is_train_stage)
+                        curr_hidden_nn_layer = tf.compat.v1.layers.batch_normalization(
+                            curr_hidden_nn_layer,
+                            momentum=0.95,
+                            epsilon=0.0001,
+                            training=self.is_train_stage,
+                        )
 
                     curr_hidden_nn_layer = self._active_layer(
                         logit=curr_hidden_nn_layer, activation=activation, layer_idx=idx

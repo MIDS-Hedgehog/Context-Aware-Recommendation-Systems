@@ -399,7 +399,6 @@ def create_hparams(flags):
         # sum
         "slots": 5,
         "cell": "SUM",
-        "temperature": 1.0 #default set to 1
     }
     init_dict.update(flags)
     return HParams(init_dict)

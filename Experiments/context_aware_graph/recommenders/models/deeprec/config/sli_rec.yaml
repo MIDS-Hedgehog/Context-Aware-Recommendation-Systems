@@ -1,11 +1,9 @@
-#Base_dir update this to your own path
-paths:
-  base_dir: /Users/diegorodriguezescalona/Documents/Duke/Classes/2-Spring_2025/Principles_ML/Context-Aware-Recommendation-Systems/Data/increase_diversity_in_rec
+#data
 #data format:sequential model 
-data:
-  user_vocab : ${paths.base_dir}/user_vocab.pkl      # user → id lookup
-  item_vocab : ${paths.base_dir}/item_vocab.pkl      # item → id lookup
-  cate_vocab : ${paths.base_dir}/category_vocab.pkl  # category → id lookup
+data: 
+    user_vocab : ./tests/resources/deeprec/slirec/user_vocab.pkl # the map file of user to id
+    item_vocab : ./tests/resources/deeprec/slirec/item_vocab.pkl # the map file of item to id
+    cate_vocab : ./tests/resources/deeprec/slirec/category_vocab.pkl # the map file of category to id
 
 #model
 model:
@@ -52,8 +50,8 @@ info:
     save_epoch : 1    # if save_model is set to True, save the model every save_epoch.
     metrics : ['auc','logloss']  # metrics for evaluation.
     pairwise_metrics : ['mean_mrr', 'ndcg@2;4;6', "group_auc"]  # pairwise metrics for evaluation, available when pairwise comparisons are needed
-    MODEL_DIR     : ${paths.base_dir}/model/slirec_model/      # checkpoint directory
-    SUMMARIES_DIR : ${paths.base_dir}/summary/slirec_summary/  # TensorBoard logs
+    MODEL_DIR : ./tests/resources/deeprec/slirec/model/slirec_model/ # directory of saved models.
+    SUMMARIES_DIR : ./tests/resources/deeprec/slirec/summary/slirec_summary/  # directory of saved summaries.
     write_tfevents : True  # whether to save summaries.
 
     

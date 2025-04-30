@@ -59,7 +59,7 @@ class SequentialBaseModel(BaseModel):
         """The main function to create sequential models.
 
         Returns:
-            object: the prediction score made by the model.
+            object: the prediction score make by the model.
         """
         hparams = self.hparams
         self.keep_prob_train = 1 - np.array(hparams.dropout)
@@ -69,17 +69,10 @@ class SequentialBaseModel(BaseModel):
             self._build_embedding()
             self._lookup_from_embedding()
             model_output = self._build_seq_graph()
-            
-            # Compute logits from the final fully connected network.
             logit = self._fcn_net(model_output, hparams.layer_sizes, scope="logit_fcn")
-            
-            scaled_logit = logit / self.temperature
-            
             self._add_norm()
-            # It can also be useful to store the scaled_logit as an attribute for inference.
-            self.logit = scaled_logit
-            return scaled_logit
-    
+            return logit
+
     def fit(
         self,
         train_file,
@@ -127,6 +120,7 @@ class SequentialBaseModel(BaseModel):
         best_metric, self.best_epoch = 0, 0
 
         for epoch in range(1, self.hparams.epochs + 1):
+            print(f"\n🔥 Starting Epoch {epoch} 🔥", flush=True)
             step = 0
             self.hparams.current_epoch = epoch
             epoch_loss = 0
@@ -144,12 +138,15 @@ class SequentialBaseModel(BaseModel):
                         self.writer.add_summary(summary, step)
                     epoch_loss += step_loss
                     step += 1
+                    #if step % self.hparams.show_step == 0:
+                        #print(
+                            #"step {0:d} , total_loss: {1:.4f}, data_loss: {2:.4f}".format(
+                                #step, step_loss, step_data_loss
+                            #)
+                        #)
                     if step % self.hparams.show_step == 0:
-                        print(
-                            "step {0:d} , total_loss: {1:.4f}, data_loss: {2:.4f}".format(
-                                step, step_loss, step_data_loss
-                            )
-                        )
+                        print(f"[Epoch {epoch}] Step {step}: total_loss={step_loss:.4f}, data_loss={step_data_loss:.4f}", flush=True)
+
 
             valid_res = self.run_eval(valid_file, valid_num_ngs)
             print(
@@ -231,39 +228,28 @@ class SequentialBaseModel(BaseModel):
         res.update(res_pairwise)
         return res
 
-    def predict(self, infile_name, output_file=None):
-        """
-        Make predictions on the given data, and optionally write them to a file.
-        
+    def predict(self, infile_name, outfile_name):
+        """Make predictions on the given data, and output predicted scores to a file.
+
         Args:
             infile_name (str): Input file name.
-            output_file (str or None): If provided, predictions will be written to this file.
-            
+            outfile_name (str): Output file name.
+
         Returns:
-            np.ndarray or None: If output_file is None, returns a numpy array of predictions.
-                                Otherwise, returns None.
+            object: An instance of self.
         """
+
         load_sess = self.sess
-        all_preds = []
-        
-        if output_file is not None:
-            with tf.io.gfile.GFile(output_file, "w") as wt:
-                for batch_data_input in self.iterator.load_data_from_file(infile_name, batch_num_ngs=0):
-                    if batch_data_input:
-                        step_pred = self.infer(load_sess, batch_data_input)
-                        step_pred = np.reshape(step_pred, -1)
-                        all_preds.extend(step_pred.tolist())
-                        wt.write("\n".join(map(str, step_pred)))
-                        wt.write("\n")
-            return None
-        else:
-            for batch_data_input in self.iterator.load_data_from_file(infile_name, batch_num_ngs=0):
+        with tf.io.gfile.GFile(outfile_name, "w") as wt:
+            for batch_data_input in self.iterator.load_data_from_file(
+                infile_name, batch_num_ngs=0
+            ):
                 if batch_data_input:
                     step_pred = self.infer(load_sess, batch_data_input)
                     step_pred = np.reshape(step_pred, -1)
-                    all_preds.extend(step_pred.tolist())
-            return np.array(all_preds)
-
+                    wt.write("\n".join(map(str, step_pred)))
+                    wt.write("\n")
+        return self
 
     def _build_embedding(self):
         """The field embedding layer. Initialization of embedding variables."""
@@ -275,7 +261,7 @@ class SequentialBaseModel(BaseModel):
         self.item_embedding_dim = hparams.item_embedding_dim
         self.cate_embedding_dim = hparams.cate_embedding_dim
 
-        with tf.compat.v1.variable_scope("embedding", initializer=self.initializer):
+        with tf.compat.v1.variable_scope("embedding", initializer=self.initializer, reuse=tf.compat.v1.AUTO_REUSE):
             self.user_lookup = tf.compat.v1.get_variable(
                 name="user_embedding",
                 shape=[self.user_vocab_length, self.user_embedding_dim],
