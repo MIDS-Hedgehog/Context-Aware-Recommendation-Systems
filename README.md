@@ -6,7 +6,7 @@ Is time all that matters? Exploring Context-Aware-Recommendation-Systems to expl
 Context-Aware-Recommendation-Systems/
 ├── Data/
 │   ├── domain_transfer_capabilities/
-│   ├── exploit_item_context/
+│   ├── context_aware_graph/
 │   ├── generalization_performance/
 │   ├── increase_diversity_in_rec/
 │   └── original_data/
@@ -25,7 +25,7 @@ The notebooks and code for the four experiments can be found in the `Experiments
 #### 1. Domain Transfer Capabilities
 The performance is evaluated under two settings to test SLi-Rec’s adaptability to new domains.     
        
-#### 2. Exploit Item Context     
+#### 2. context_aware_graph     
 This experiment integrates a graph-based module using a Graph Convolutional Network (GCN) into the SLi-Rec architecture cite the DNN diagram and say where to enhance recommendation performance in scenarios where temporal signals alone may be insufficient.     
       
 #### 3. Generalization Performance     
