@@ -181,3 +181,6 @@ pip-wheel*
 
 ##Data
 Data/
+
+Context-Aware-Recommendation-Systems/Experiments/exploit_item_context/recommenders/model_graph_fusion_experiment/tests/resources/deeprec/slirec/summary/slirec_summary
+Context-Aware-Recommendation-Systems/Experiments/exploit_item_context/recommenders/model_graph_fusion_experiment/tests/resources/deeprec/slirec/
