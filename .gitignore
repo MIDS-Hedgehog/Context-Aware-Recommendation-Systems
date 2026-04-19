@@ -146,7 +146,6 @@ ml-20m/
 *.jar
 *.item
 *.pkl
-*.pdf
 .pretrain
 *.npy
 *.ckpt*
@@ -174,7 +173,7 @@ examples/07_tutorials/KDD2020-tutorial/data_folder/
 *.sh
 
 tests/**/resources/
-reports/
+
 
 ### pip folders
 pip-wheel*
